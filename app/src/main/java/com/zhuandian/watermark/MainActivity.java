@@ -97,16 +97,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.add_mark :
-                //addWatermarkToPhoto();
-                ImageUtil.createWaterMaskLeftBottom(this,
-                        ((BitmapDrawable)getResources().getDrawable(R.drawable.abc_list_divider_mtrl_alpha)).getBitmap(),
-                        ((BitmapDrawable)mImageView.getDrawable()).getBitmap(),
-                        0, 0);
-
+                addWatermarkToPhoto(mImageView);
                 break;
 
             case R.id.del_mark :
                 //delWatermark();
         }
+    }
+
+    private void addWatermarkToPhoto(ImageView mImageView) {
+        Bitmap bitmap = ((BitmapDrawable)mImageView.getDrawable()).getBitmap();
+        Bitmap watermarkBitmap = ((BitmapDrawable) getResources().getDrawable(R.drawable.abc_dialog_material_background_dark)).getBitmap();
+        ImageWatermarkUtils.Watermark(bitmap,watermarkBitmap,0);
     }
 }
