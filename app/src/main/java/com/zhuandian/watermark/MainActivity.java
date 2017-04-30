@@ -48,10 +48,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
             String sdStatus = Environment.getExternalStorageState();
 
-            if (!sdStatus.equals(Environment.MEDIA_MOUNTED)){
+            if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
                 System.out.println("sd card is not avaiable");
                 return;
             }
@@ -61,19 +61,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Bundle bundle = data.getExtras();
             Bitmap bitmap = (Bitmap) bundle.get("data");
 
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/");
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/");
             file.mkdirs(); //创建文件夹
 
-            String fileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+name;
+            String fileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + name;
 
-            FileOutputStream b =null;
+            FileOutputStream b = null;
 
             try {
-                b=new FileOutputStream(fileName);
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,b);
+                b = new FileOutputStream(fileName);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 try {
                     b.flush();
                     b.close();
@@ -83,31 +83,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             }
 
-
             mImageView.setImageBitmap(bitmap);
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.take_photo :
+        switch (v.getId()) {
+            case R.id.take_photo:
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent , TAKE_PHOTO);
+                startActivityForResult(intent, TAKE_PHOTO);
                 break;
 
-            case R.id.add_mark :
+            case R.id.add_mark:
                 addWatermarkToPhoto(mImageView);
                 break;
 
-            case R.id.del_mark :
+            case R.id.del_mark:
                 //delWatermark();
         }
     }
 
     private void addWatermarkToPhoto(ImageView mImageView) {
-        Bitmap bitmap = ((BitmapDrawable)mImageView.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         Bitmap watermarkBitmap = ((BitmapDrawable) getResources().getDrawable(R.drawable.abc_dialog_material_background_dark)).getBitmap();
-        ImageWatermarkUtils.Watermark(bitmap,watermarkBitmap,0);
+        ImageWatermarkUtils.Watermark(bitmap, watermarkBitmap, 0);
     }
 }
